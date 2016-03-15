@@ -1,5 +1,5 @@
 {
-  "LIVE_SERVER": {
+  "DEVSERVER1": {
     "python_app": {
       "user_acc":"django-app",
       "user_pass":"dj123",
@@ -10,7 +10,7 @@
 		      "validate_session" : true,
 		      "config_dict"      : {}
 	      },
-	      "SERVICE_API_ADDR" : "10.0.1.150",
+	      "SERVICE_API_ADDR" : "10.0.3.6",
 	      "MY_ADDR" : "10.0.3.99",
 	      "MY_PORT" : 443,
 	      "DEBUG_MODE" : true
@@ -34,6 +34,80 @@
         }
       },
       "VIRTUAL_ENV_NAME" : "django-server"
+    }
+  },
+  "QALOADSERVER": {
+    "python_app": {
+      "user_acc":"django-app",
+      "user_pass":"dj123",
+      "base_dir":"/home/django-app/",
+      "repo_url":"https://github.com/hirepro/PythonApp.git",
+      "APP_CONFIG" : {
+	      "sess_validation_config" : {
+		      "validate_session" : true,
+		      "config_dict"      : {}
+	      },
+	      "SERVICE_API_ADDR" : "10.0.3.3",
+	      "MY_ADDR" : "qaloadserver.hirepro.in",
+	      "MY_PORT" : 443,
+	      "DEBUG_MODE" : true
+      },
+      "DATABASES": {
+        "default":    {
+          "ENGINE": "django.db.backends.mysql",
+          "NAME": "appserver_core",
+          "HOST": "localhost",
+          "USER": "appserver",
+          "PASSWORD": "data",
+          "PORT": "3306"
+        },
+        "proctoring_default" : {
+                "ENGINE": "django.db.backends.mysql",
+                "NAME": "hpro_django",
+                "USER": "appserver",
+                "PASSWORD": "data",
+                "HOST": "localhost",
+                "PORT": "3306"
+        }
+      },
+      "VIRTUAL_ENV_NAME" : "djangoserver"
+    }
+  },
+  "PREPRODUCTION": {
+    "python_app": {
+      "user_acc":"django-app",
+      "user_pass":"dj123",
+      "base_dir":"/home/django-app/",
+      "repo_url":"https://github.com/hirepro/PythonApp.git",
+      "APP_CONFIG" : {
+	      "sess_validation_config" : {
+		      "validate_session" : true,
+		      "config_dict"      : {}
+	      },
+	      "SERVICE_API_ADDR" : "10.0.1.150",
+	      "MY_ADDR" : "db-preprod.hirepro.in",
+	      "MY_PORT" : 443,
+	      "DEBUG_MODE" : true
+      },
+      "DATABASES": {
+        "default":    {
+          "ENGINE": "django.db.backends.mysql",
+          "NAME": "appserver_core",
+          "HOST": "localhost",
+          "USER": "ashish",
+          "PASSWORD": "data",
+          "PORT": "3306"
+        },
+        "proctoring_default" : {
+                "ENGINE": "django.db.backends.mysql",
+                "NAME": "hpro_django",
+                "USER": "ashish",
+                "PASSWORD": "data",
+                "HOST": "localhost",
+                "PORT": "3306"
+        }
+      },
+      "VIRTUAL_ENV_NAME" : "djangoserver"
     }
   }
 }

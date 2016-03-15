@@ -68,10 +68,11 @@ def deployapp(cfg_file='cfg.json',server="DEVSERVER1"):
                     run('pip install -r /home/%s/PythonApp/requirements.txt'%(user_acc)) 
                     with cd(base_dir):
                         execute(su, user_pass, user_acc,   
-                                'python %sPythonApp/hpro/tools/db_config_builder.py -u%s -p%s' 
+                                'python %sPythonApp/hpro/tools/db_config_builder.py -u%s -p%s -D%sPythonApp/hpro/tools/' 
                                  %(base_dir,
                                    cfg[server]["python_app"]["DATABASES"]["default"]["USER"],
-                                   cfg[server]["python_app"]["DATABASES"]["default"]["PASSWORD"]
+                                   cfg[server]["python_app"]["DATABASES"]["default"]["PASSWORD"],
+                                   base_dir
                                    ))
                     r = run('cat /home/%s/databases_config.py '%(user_acc))
                     r = run('cat /home/%s/app2db.py '%(user_acc))
@@ -83,7 +84,7 @@ def deployapp(cfg_file='cfg.json',server="DEVSERVER1"):
                         print("Could not mv app2db.py !!")
                     with cd(base_dir+"PythonApp"):
                         execute(su, user_pass, user_acc, 'python -m compileall .')
-                        execute(su, user_pass, user_acc, 'supervisorctrl restart all')
+                        execute(su, user_pass, user_acc, 'supervisorctl restart all')
                     
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
