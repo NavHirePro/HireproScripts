@@ -7,15 +7,7 @@ from contextlib import contextmanager
 from fabric.api import prefix
 from contextlib import contextmanager as _contextmanager
 
-#logging.basicConfig()
-#paramiko_logger = logging.getLogger("paramiko.transport")
-#paramiko_logger.disabled = True
-
-#env.hosts = ['10.0.3.156'] #,'root@139.162.13.96','user@10.0.3.156']
-#env.hosts = ['10.0.3.99']
 env.debug = True
-#env.no_keys= True
-#logging.basicConfig(level=logging.DEBUG)
 
 @_contextmanager
 def virtualenv(user_acc,venv_name):
@@ -104,8 +96,6 @@ def setup(cfg_file = 'cfg.json',server="DEVSERVER1",fresh_deployment=False):
             user_pass = cfg[server]["python_app"]["user_pass"]
             base_dir = cfg[server]["python_app"]["base_dir"]
             if 'True' == fresh_deployment:
-                #env.user='user'
-                #env.password='user'
                 print ("Fresh Deploymet")
                 result = sudo("useradd -d /home/%s/ -G www-data,sudo -m -s /bin/bash %s"%(user_acc,user_acc))
                 result = sudo("echo '%s\n%s\n' > p.txt "%(user_pass,user_pass))
@@ -121,12 +111,6 @@ def setup(cfg_file = 'cfg.json',server="DEVSERVER1",fresh_deployment=False):
                         print("Failed to create log directory!!")
                     else:
                         print("Created log directory in %s",env.hosts)
-                    '''
-                    execute(su, user_pass, user_acc, 'pip install virtualenv')  
-                    execute(su, user_pass, user_acc, 'pip install virtualenvwrapper')  
-                with prefix(". /usr/local/bin/virtualenvwrapper.sh "):
-                    execute(su, user_pass, user_acc, 'mkvirtualenv %s'%user_acc)  
-                    '''
                     cmd = "echo 'if [ -f /usr/local/bin/virtualenvwrapper.sh ]  \nthen\n source /usr/local/bin/virtualenvwrapper.sh     \nfi \n' >> /home/%s/.bash_profile"%(user_acc)
                     result = sudo(cmd)
                     cmd = 'chown %s /home/%s/.bash_profile'%(user_acc,user_acc)
@@ -135,49 +119,6 @@ def setup(cfg_file = 'cfg.json',server="DEVSERVER1",fresh_deployment=False):
                     result = sudo(cmd)
                     with prefix(". /usr/local/bin/virtualenvwrapper.sh "):
                         execute(su, user_pass, user_acc, 'mkvirtualenv %s'%user_acc)  
-            #with cd(base_dir):
-            #    sudo("git clone %s"%cfg[server]["python_app"]["repo_url"],user=user_acc)
-            #with prefix(". /usr/local/bin/virtualenvwrapper.sh "):
-            #    execute(su, user_pass, user_acc, 'workon %s'%user_acc)  
-                #tools_dir = base_dir + 'PythonApp/hpro/tools/'
-                #conf_dir = base_dir + 'PythonApp/hpro/conf/'
-                #settings_dir = base_dir + 'PythonApp/hpro/hpro/'
-                #execute(su, user_pass, user_acc, 'python /home/%s/PythonApp/hpro/tools/db_config_builder.py -uroot -pHire!!123'%(user_acc))
-                #with cd(tools_dir):
-                    #r = sudo('python db_config_builder.py -uroot -pHire!!123',user=user_acc)
-                    #sudo('mv databases_config.py ../hpro/')
-                    #sudo('mv app2db.py ../manager/')
-                    #result = sudo('pip install virtualenvwrapper',user=user_acc)
-                    #if result.failed:
-                    #    print("Unable to install virtulenvwrapper!!")
-                    #sourcing = 'if [ -f /usr/local/bin/virtualenvwrapper.sh ]  \nthen\n source /usr/local/bin/virtualenvwrapper.sh \nfi \n'
-                    #result = sudo("echo 'if [ -f /usr/local/bin/virtualenvwrapper.sh ]  \nthen\n source /usr/local/bin/virtualenvwrapper.sh \nfi \n' >> /home/%s/.bash_profile"%(user_acc),user=user_acc)
-                    #if result.failed:
-                    #    print ("Failed to create/update .bash_profile")
-                    #else:
-                    #with prefix(". /usr/local/bin/virtualenvwrapper.sh "):
-                    #    sudo("mkvirtualenv django-server-1",user=user_acc)
-                    #    workon='workon django-server-1'
-                    #sudo("git clone %s"%cfg[server]["python_app"]["repo_url"],user=user_acc)
-                    #with prefix(workon):
-                    #    sudo('python db_config_builder.py',user=user_acc)
-                '''
-                env.user=user_acc
-                env.password=user_pass
-                run("workon django-server")
-                result = run("mv PythonApp PythonApp-AutoInstall-Prev")
-                if result.failed:
-                    print("Failed to backup earlier installation!!")
-                if fresh_deployment != True:
-                    run("git clone %s"%cfg[server]["python_app"]["repo_url"])
-                run("pip install -r PythonApp/reqs.txt")
-                with cd(tools_dir):
-                    run('python db_config_builder.py')
-                    run('mv databases_config.py ../hpro/')
-                    run('mv app2db.py ../manager/')
-                    run('python -m compileall ../../')
-                    #sudo('supervisorctrl restart all')
-                '''
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
