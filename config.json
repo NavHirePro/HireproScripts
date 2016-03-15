@@ -1,0 +1,39 @@
+{
+  "LIVE_SERVER": {
+    "python_app": {
+      "user_acc":"django-app",
+      "user_pass":"dj123",
+      "base_dir":"/home/django-app/",
+      "repo_url":"https://github.com/hirepro/PythonApp.git",
+      "APP_CONFIG" : {
+	      "sess_validation_config" : {
+		      "validate_session" : true,
+		      "config_dict"      : {}
+	      },
+	      "SERVICE_API_ADDR" : "10.0.1.150",
+	      "MY_ADDR" : "10.0.3.99",
+	      "MY_PORT" : 443,
+	      "DEBUG_MODE" : true
+      },
+      "DATABASES": {
+        "default":    {
+          "ENGINE": "django.db.backends.mysql",
+          "NAME": "appserver_core",
+          "HOST": "localhost",
+          "USER": "appserver",
+          "PASSWORD": "data",
+          "PORT": "3306"
+        },
+        "proctoring_default" : {
+                "ENGINE": "django.db.backends.mysql",
+                "NAME": "hpro_django",
+                "USER": "appserver",
+                "PASSWORD": "data",
+                "HOST": "localhost",
+                "PORT": "3306"
+        }
+      },
+      "VIRTUAL_ENV_NAME" : "django-server"
+    }
+  }
+}
