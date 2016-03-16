@@ -1,7 +1,7 @@
 from __future__ import with_statement
 import logging
 from fabric.api import *
-import json,sys,os
+import json,sys,os,datetime
 
 from contextlib import contextmanager
 from fabric.api import prefix
@@ -21,7 +21,7 @@ def su(pwd,user,command):
          sudo_prompt="Password:"
          ):
          sudo(command)
-def deployapp(cfg_file='cfg.json',server="DEVSERVER1"):
+def deployapp(server,cfg_file='config.json'):
     try:
         tmp_cfg = open(cfg_file).read()
         cfg = json.loads(tmp_cfg)
@@ -34,9 +34,7 @@ def deployapp(cfg_file='cfg.json',server="DEVSERVER1"):
         conf_dir = base_dir + 'PythonApp/hpro/conf/'
         manager_dir = base_dir + 'PythonApp/hpro/manager/'
         settings_dir = base_dir + 'PythonApp/hpro/hpro/'
-
-        print cfg
-
+        print cfg[server]
         target = open('myAppConf.py','w')
         target.write("APP_CONFIG = ")
         target.write(str(cfg[server]["python_app"]["APP_CONFIG"]))
@@ -47,9 +45,11 @@ def deployapp(cfg_file='cfg.json',server="DEVSERVER1"):
         target.write(str(cfg[server]["python_app"]["DATABASES"]))
         target.write("\n")
         target.close()
-        with settings(host_string=cfg[server]["python_app"]["APP_CONFIG"]["MY_ADDR"],warn_only =True):
+        with settings(host_string=cfg[server]["python_app"]["APP_CONFIG"]["MY_ADDR"]):
             with cd(base_dir):
-                r = run("mv PythonApp PythonApp-BefUpgrade")
+                r = run("mkdir -p PythonAppBackups")
+                r = run("mv PythonApp PythonAppBackups/PythonApp%s"%(datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+))
                 r = run("git clone %s"%cfg[server]["python_app"]["repo_url"])
             if r.failed:
                 print("Could not clone the repo!!")
@@ -59,24 +59,27 @@ def deployapp(cfg_file='cfg.json',server="DEVSERVER1"):
                 with virtualenv(user_acc,cfg[server]["python_app"]["VIRTUAL_ENV_NAME"]):
                     run('pip install -r /home/%s/PythonApp/requirements.txt'%(user_acc)) 
                     with cd(base_dir):
-                        sudo('python %sPythonApp/hpro/tools/db_config_builder.py -u%s -p%s -D%sPythonApp/hpro/tools/'
+                        r = sudo('python %sPythonApp/hpro/tools/db_config_builder.py -u%s -p%s -D%sPythonApp/hpro/tools/'
                                  %(base_dir,
                                    cfg[server]["python_app"]["DATABASES"]["default"]["USER"],
                                    cfg[server]["python_app"]["DATABASES"]["default"]["PASSWORD"],
                                    base_dir
                                    ))
-                    r = run('cat /home/%s/databases_config.py '%(user_acc))
-                    r = run('cat /home/%s/app2db.py '%(user_acc))
-                    r = run('mv /home/%s/databases_config.py %s'%(user_acc,settings_dir))
                     if r.failed:
-                        print("Could not mv databases_config!!")
-                    r = run('mv /home/%s/app2db.py %s'%(user_acc,manager_dir))
-                    if r.failed:
-                        print("Could not mv app2db.py !!")
-                    with cd(base_dir+"PythonApp"):
-                        sudo('python -m compileall .')
-                        sudo('supervisorctl restart all')
-                    
+                       print("Could not build db config files.!!")
+                    else:
+                        r = run('cat /home/%s/databases_config.py '%(user_acc))
+                        r = run('cat /home/%s/app2db.py '%(user_acc))
+                        r = run('mv /home/%s/databases_config.py %s'%(user_acc,settings_dir))
+                        if r.failed:
+                            print("Could not mv databases_config!!")
+                        else:
+                            r = run('mv /home/%s/app2db.py %s'%(user_acc,manager_dir))
+                            if r.failed:
+                                print("Could not mv app2db.py !!")
+                            with cd(base_dir+"PythonApp"):
+                                sudo('python -m compileall .')
+                                sudo('supervisorctl -c /etc/supervisor/supervisord.conf restart all')
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]

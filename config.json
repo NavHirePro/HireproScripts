@@ -1,5 +1,5 @@
 {
-  "DEVSERVER1": {
+  "DEVSERVER1" : {
     "python_app": {
       "user_acc":"django-app",
       "user_pass":"dj123",
@@ -29,6 +29,43 @@
                 "NAME": "hpro_django",
                 "USER": "appserver",
                 "PASSWORD": "data",
+                "HOST": "localhost",
+                "PORT": "3306"
+        }
+      },
+      "VIRTUAL_ENV_NAME" : "django-server"
+    }
+  },
+  "139": {
+    "python_app": {
+      "user_acc":"django-app",
+      "user_pass":"dj123",
+      "base_dir":"/home/django-app/",
+      "repo_url":"https://github.com/hirepro/PythonApp.git",
+      "APP_CONFIG" : {
+	      "sess_validation_config" : {
+		      "validate_session" : true,
+		      "config_dict"      : {}
+	      },
+	      "SERVICE_API_ADDR" : "10.0.3.6",
+	      "MY_ADDR" : "139.162.13.96",
+	      "MY_PORT" : 443,
+	      "DEBUG_MODE" : true
+      },
+      "DATABASES": {
+        "default":    {
+          "ENGINE": "django.db.backends.mysql",
+          "NAME": "appserver_core",
+          "HOST": "localhost",
+          "USER": "root",
+          "PASSWORD": "Hire!!123",
+          "PORT": "3306"
+        },
+        "proctoring_default" : {
+                "ENGINE": "django.db.backends.mysql",
+                "NAME": "hpro_django",
+                "USER": "root",
+                "PASSWORD": "Hire!!123",
                 "HOST": "localhost",
                 "PORT": "3306"
         }
@@ -76,7 +113,7 @@
   "PREPRODUCTION": {
     "python_app": {
       "user_acc":"django-app",
-      "user_pass":"dj123",
+      "user_pass":"django",
       "base_dir":"/home/django-app/",
       "repo_url":"https://github.com/hirepro/PythonApp.git",
       "APP_CONFIG" : {
