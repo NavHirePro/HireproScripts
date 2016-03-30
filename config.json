@@ -1,4 +1,51 @@
 {
+
+  "LOADSERVER" : {
+    "python_app": {
+      "user_acc":"django-app",
+      "user_pass":"dj123",
+      "base_dir":"/home/django-app/",
+      "repo_url":"https://github.com/hirepro/PythonApp.git",
+      "APP_CONFIG" : {
+	      "sess_validation_config" : {
+		      "validate_session" : true,
+		      "config_dict"      : {}
+	      },
+	      "SERVICE_API_ADDR" : "10.0.3.3",
+	      "MY_ADDR" : "10.0.3.29",
+	      "MY_PORT" : 0,
+              "REDIS_CONFIG" : {
+                  "SERVER" : "127.0.0.1",
+                  "DB_IDX" : 0,
+                  "PORT"   : 6379,
+                  "TIMEOUT": 10,
+                  "TOKEN_PREFIX" : "",    
+                  "TOKEN_SUFFIX" : "",    
+                  "VALUE_FORMAT" : "JSON" 
+              },
+	      "DEBUG_MODE" : true
+      },
+      "DATABASES": {
+        "default":    {
+          "ENGINE": "django.db.backends.mysql",
+          "NAME": "appserver_core",
+          "HOST": "localhost",
+          "USER": "appserver",
+          "PASSWORD": "data",
+          "PORT": "3306"
+        },
+        "proctoring_default" : {
+                "ENGINE": "django.db.backends.mysql",
+                "NAME": "hpro_django",
+                "USER": "appserver",
+                "PASSWORD": "data",
+                "HOST": "localhost",
+                "PORT": "3306"
+        }
+      },
+      "VIRTUAL_ENV_NAME" : "djangoserver"
+    }
+  },
   "DEVSERVER1" : {
     "python_app": {
       "user_acc":"django-app",
@@ -12,7 +59,16 @@
 	      },
 	      "SERVICE_API_ADDR" : "10.0.3.6",
 	      "MY_ADDR" : "10.0.3.99",
-	      "MY_PORT" : 443,
+	      "MY_PORT" : 0,
+              "REDIS_CONFIG" : {
+                  "SERVER" : "127.0.0.1",
+                  "DB_IDX" : 0,
+                  "PORT"   : 6379,
+                  "TIMEOUT": 10,
+                  "TOKEN_PREFIX" : "",    
+                  "TOKEN_SUFFIX" : "",    
+                  "VALUE_FORMAT" : "JSON" 
+              },
 	      "DEBUG_MODE" : true
       },
       "DATABASES": {
@@ -36,6 +92,52 @@
       "VIRTUAL_ENV_NAME" : "django-server"
     }
   },
+  "3.156":{
+    "python_app": {
+      "user_acc":"django-app",
+      "user_pass":"dj123",
+      "base_dir":"/home/django-app/",
+      "repo_url":"https://github.com/hirepro/PythonApp.git",
+      "APP_CONFIG" : {
+	      "sess_validation_config" : {
+		      "validate_session" : true,
+		      "config_dict"      : {}
+	      },
+	      "SERVICE_API_ADDR" : "10.0.3.7",
+	      "MY_ADDR" : "10.0.3.156",
+	      "MY_PORT" : 0,
+              "REDIS_CONFIG" : {
+                  "SERVER" : "127.0.0.1",
+                  "DB_IDX" : 0,
+                  "PORT"   : 6379,
+                  "TIMEOUT": 10,
+                  "TOKEN_PREFIX" : "",    
+                  "TOKEN_SUFFIX" : "",    
+                  "VALUE_FORMAT" : "JSON" 
+              },
+	      "DEBUG_MODE" : true
+      },
+      "DATABASES": {
+        "default":    {
+          "ENGINE": "django.db.backends.mysql",
+          "NAME": "appserver_core",
+          "HOST": "localhost",
+          "USER": "python",
+          "PASSWORD": "data",
+          "PORT": "3306"
+        },
+        "proctoring_default" : {
+                "ENGINE": "django.db.backends.mysql",
+                "NAME": "hpro_django",
+                "USER": "python",
+                "PASSWORD": "data",
+                "HOST": "localhost",
+                "PORT": "3306"
+        }
+      },
+      "VIRTUAL_ENV_NAME" : "django-server"
+    }
+  },
   "139": {
     "python_app": {
       "user_acc":"django-app",
@@ -49,7 +151,16 @@
 	      },
 	      "SERVICE_API_ADDR" : "10.0.3.6",
 	      "MY_ADDR" : "139.162.13.96",
-	      "MY_PORT" : 443,
+	      "MY_PORT" : 0,
+              "REDIS_CONFIG" : {
+                  "SERVER" : "127.0.0.1",
+                  "DB_IDX" : 0,
+                  "PORT"   : 6379,
+                  "TIMEOUT": 10,
+                  "TOKEN_PREFIX" : "",    
+                  "TOKEN_SUFFIX" : "",    
+                  "VALUE_FORMAT" : "JSON" 
+              },
 	      "DEBUG_MODE" : true
       },
       "DATABASES": {
@@ -86,7 +197,16 @@
 	      },
 	      "SERVICE_API_ADDR" : "10.0.3.3",
 	      "MY_ADDR" : "qaloadserver.hirepro.in",
-	      "MY_PORT" : 443,
+	      "MY_PORT" : 0,
+              "REDIS_CONFIG" : {
+                  "SERVER" : "127.0.0.1",
+                  "DB_IDX" : 0,
+                  "PORT"   : 6379,
+                  "TIMEOUT": 10,
+                  "TOKEN_PREFIX" : "",    
+                  "TOKEN_SUFFIX" : "",    
+                  "VALUE_FORMAT" : "JSON" 
+              },
 	      "DEBUG_MODE" : true
       },
       "DATABASES": {
@@ -123,7 +243,16 @@
 	      },
 	      "SERVICE_API_ADDR" : "10.0.1.150",
 	      "MY_ADDR" : "db-preprod.hirepro.in",
-	      "MY_PORT" : 443,
+	      "MY_PORT" : 0,
+              "REDIS_CONFIG" : {
+                  "SERVER" : "127.0.0.1",
+                  "DB_IDX" : 0,
+                  "PORT"   : 6379,
+                  "TIMEOUT": 10,
+                  "TOKEN_PREFIX" : "",    
+                  "TOKEN_SUFFIX" : "",    
+                  "VALUE_FORMAT" : "JSON" 
+              },
 	      "DEBUG_MODE" : true
       },
       "DATABASES": {

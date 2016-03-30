@@ -20,10 +20,19 @@ fab deployapp:cfg_file=config.json,server="DEVSERVER1"
 		      "validate_session" : true,
 		      "config_dict"      : {}
 	      },
-	      "SERVICE_API_ADDR" : "10.0.1.150", # UPDATE WHICH .NET SERVER?
+	      "SERVICE_API_ADDR" : "10.0.3.6",   # UPDATE WHICH .NET SERVER?
 	      "MY_ADDR" : "10.0.3.99",           # UPDATE WHICH IP ON WHICH PYTHON IS GOING TO RUN
 	      "MY_PORT" : 443,                   # UPDATE WHICH PORT?
-	      "DEBUG_MODE" : true                # DEBUG ENABLED?
+	      "DEBUG_MODE" : true,               # DEBUG ENABLED?
+              "REDIS_CONFIG" : {
+                  "SERVER" : "127.0.0.1",        # 
+                  "DB_IDX" : 0,                  # REDIS DB INDEX.
+                  "PORT"   : 6379,               
+                  "TIMEOUT": 10,                 # CONNECTION SOCKET TIMEOUT
+                  "TOKEN_PREFIX" : "",           # 
+                  "TOKEN_SUFFIX" : "",    
+                  "VALUE_FORMAT" : "JSON"        #
+              },
       },
       "DATABASES": {
         "default":    {
