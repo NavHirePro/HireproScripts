@@ -1,5 +1,54 @@
 {
-
+  "RECORDINGSERVER" : { 
+    "LOGIN_PARAMS": {
+	"KEY_PATH" : "/home/naveena/.ssh/recorder.pem",
+        "USER": "naveena"
+    },
+    "python_app": {
+      "user_acc":"django-app",
+      "user_pass":"dj123",
+      "base_dir":"/home/django-app/",
+      "repo_url":"https://github.com/hirepro/PythonApp.git",
+      "APP_CONFIG" : {
+	      "sess_validation_config" : {
+		      "validate_session" : true,
+		      "config_dict"      : {}
+	      },
+	      "SERVICE_API_ADDR" : "10.0.3.3",
+	      "MY_ADDR" : "54.179.180.92",
+	      "MY_PORT" : 0,
+              "REDIS_CONFIG" : {
+                  "SERVER" : "127.0.0.1",
+                  "DB_IDX" : 0,
+                  "PORT"   : 6379,
+                  "TIMEOUT": 10,
+                  "TOKEN_PREFIX" : "",    
+                  "TOKEN_SUFFIX" : "",    
+                  "VALUE_FORMAT" : "JSON" 
+              },
+	      "DEBUG_MODE" : true
+      },
+      "DATABASES": {
+        "default":    {
+          "ENGINE": "django.db.backends.mysql",
+          "NAME": "appserver_core",
+          "HOST": "localhost",
+          "USER": "appserver",
+          "PASSWORD": "data",
+          "PORT": "3306"
+        },
+        "proctoring_default" : {
+                "ENGINE": "django.db.backends.mysql",
+                "NAME": "hpro_django",
+                "USER": "appserver",
+                "PASSWORD": "data",
+                "HOST": "localhost",
+                "PORT": "3306"
+        }
+      },
+      "VIRTUAL_ENV_NAME" : "django-server"
+    }
+  },
   "LOADSERVER" : {
     "python_app": {
       "user_acc":"django-app",
@@ -162,6 +211,21 @@
                   "VALUE_FORMAT" : "JSON" 
               },
 	      "DEBUG_MODE" : true
+      },
+      "PROCTORING_CONFIG" : {
+	      "RECORDING_SERVER":"videoserver1.hirepro.in",
+	      "PROTOCOL":"https",
+	      "LOGIN_CREDENTIALS": {
+		      "EMAIL":"admin@hirepro.in",
+		      "PASSWORD":"admin123"
+	      },
+	      "REDIS_CONFIG" : {
+		      "SERVER" : "127.0.0.1",
+		      "DB_IDX" : 0,
+		      "PORT"   : 6379,
+		      "TIMEOUT": 10,
+		      "KEY_EXPIRY_TIME":3600
+	      }
       },
       "DATABASES": {
         "default":    {

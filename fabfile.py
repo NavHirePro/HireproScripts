@@ -22,6 +22,19 @@ def su(pwd,user,command):
          ):
          sudo(command)
 def deployapp(server,cfg_file='config.json'):
+
+    try:
+        tmp_cfg = open(cfg_file).read()
+        cfg = json.loads(tmp_cfg)
+        login_config = cfg[server].get("LOGIN_PARAMS",None)
+        if login_config != None:
+            env.user = login_config["USER"]
+            env.key_filename = login_config["KEY_PATH"]
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print( "Exception (%s:%s): %s" %(fname,exc_tb.tb_lineno,str(e)))
+        return 
     try:
         tmp_cfg = open(cfg_file).read()
         cfg = json.loads(tmp_cfg)
@@ -38,6 +51,9 @@ def deployapp(server,cfg_file='config.json'):
         target = open('myAppConf.py','w')
         target.write("APP_CONFIG = ")
         target.write(str(cfg[server]["python_app"]["APP_CONFIG"]))
+        target.write("\n")
+        target.write("PROCTORING_CONFIG = ")
+        target.write(str(cfg[server]["python_app"].get("PROCTORING_CONFIG","{}")))
         target.write("\n")
         target.close()
         target = open('default_db_config.py','w')
@@ -85,19 +101,20 @@ def deployapp(server,cfg_file='config.json'):
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print( "Exception (%s:%s): %s" %(fname,exc_tb.tb_lineno,str(e)))
 
-def setup(cfg_file = 'cfg.json',server="DEVSERVER1",fresh_deployment=False):
+def setup(cfg_file = 'config.json',server="",fresh_deployment=True):
     try:
         tmp_cfg = open(cfg_file).read()
         cfg = json.loads(tmp_cfg)
         print cfg
-        with settings(warn_only=True):
-            print ("Trying to run task on %s for user (%s) with pass(%s)"%(env.hosts,env.user,env.password))
+        env.host_string = '54.179.180.92'
+        with settings(warn_only=True,user='naveena', key_filename='/home/naveena/.ssh/recorder.pem'):
+            print ("Trying to run task on %s "%(env.hosts))
             env.user = "naveena"
-            env.password = "naveena"
+            env.password = "n@v33n@"
             user_acc = cfg[server]["python_app"]["user_acc"]
             user_pass = cfg[server]["python_app"]["user_pass"]
             base_dir = cfg[server]["python_app"]["base_dir"]
-            if 'True' == fresh_deployment:
+            if True == fresh_deployment:
                 print ("Fresh Deploymet")
                 result = sudo("useradd -d /home/%s/ -G www-data,sudo -m -s /bin/bash %s"%(user_acc,user_acc))
                 result = sudo("echo '%s\n%s\n' > p.txt "%(user_pass,user_pass))
@@ -120,7 +137,19 @@ def setup(cfg_file = 'cfg.json',server="DEVSERVER1",fresh_deployment=False):
                     cmd = 'chgrp %s /home/%s/.bash_profile'%(user_acc,user_acc)
                     result = sudo(cmd)
                     with prefix(". /usr/local/bin/virtualenvwrapper.sh "):
-                        execute(su, user_pass, user_acc, 'mkvirtualenv %s'%user_acc)  
+                        execute(su, user_pass, user_acc, 'mkvirtualenv %s'%cfg[server]["python_app"]["VIRTUAL_ENV_NAME"])  
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print( "Exception (%s:%s): %s" %(fname,exc_tb.tb_lineno,str(e)))
+
+def tryout():
+    try:
+        env.host_string = '54.179.180.92'
+        local_path = '/home/naveena/Desktop/Personal/DeploymentPlayground/fabfile.py'
+        remote_path = '/home/naveena/'
+        with settings(user='naveena', key_filename='/home/naveena/.ssh/recorder.pem'):
+            put(local_path, remote_path)
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
